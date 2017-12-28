@@ -2,25 +2,31 @@ require 'byebug'
 
 class ArtistsController < ApplicationController
 
-  def search
+  def new
     @artist = Artist.new
     # @search_results = @artist.allmusic_search_url
   end
 
-  def search_results
+  def create
     @artist = Artist.create(name: artist_params[:name])
     puts @artist
-    redirect_to artists_path
-  end
-
-  def index
-    @artist = Artist.all.last
-    puts @artist.name
-    @search_results = @artist.allmusic_search_url
-    puts @search_results
+    redirect_to artist_path(@artist)
   end
 
   def show
+    @artist = Artist.find(params[:id])
+    @search_results = @artist.allmusic_search_url
+    @artist_url = @search_results.css("div.name a")[0].attribute("href").value
+    @artist_page = Nokogiri::HTML(open(@artist_url))
+    # artist info
+    @artist_name = @artist_page.css("h1.artist-name").text
+    @artist_headline = @artist_page.css("p.biography span").text
+    @artist_dates = @artist_page.css("div.active-dates").text
+    @artist_genre = @artist_page.css("div.genre a").text
+    @artist_styles =  @artist_page.css("div.styles div a").map {|t| t.text}
+    @artist_similar = Nokogiri::HTML(open(@artist_url+"/related")).css("section.related.similars ul li a").map {|s| s.text}
+    @artist_influence = Nokogiri::HTML(open(@artist_url+"/related")).css("section.related.influencers ul li a").map {|s| s.text}
+    @artist_bio = Nokogiri::HTML(open(@artist_url+"/biography")).css("section.biography div.text")
   end
 
   private
@@ -30,12 +36,14 @@ class ArtistsController < ApplicationController
     end
 
     def allmusic_search_url
-      name_url = self.search.split.join("+")
+      name_url = self.name.split.join("+")
       band_name_search = "https://www.allmusic.com/search/artists/#{name_url}"
       Nokogiri::HTML(open(band_name_search))
     end
 
     def band_page_scrape
+allmusic_search_url.css("div.name a")[0]. Nokogiri::HTML(open(attribute("href").value))
+    end
 
 
 end

@@ -6,7 +6,8 @@
 <%= f.submit %>
 <% end %> -->
 
-<% form_tag(:controller => "artists", :action => "search", :method => "get", :class => "artist_search") %>
-<%= text_field_tag(:query) %>
-<%= submit_tag("Search") %>
+<%= form_for @artist do |f| %>
+<%= f.label :name %>
+<%= f.text_field :name %>
+<%= f.submit %>
 <% end %>
