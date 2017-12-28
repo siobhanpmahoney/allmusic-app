@@ -1,0 +1,12 @@
+<ul>
+
+<% @search_results.css("div.info").map do |i| %>
+  <li><h4>Artist: <%= link_to artist_path, i.css("div.name").text, artist %></h4>
+    <ul>
+      <li><%= i.css("div.genres").text %></li>
+      <li><%= i.css("div.decades").text %></li>
+    </ul><br>
+  </li>
+  <% end %>
+
+</ul>
