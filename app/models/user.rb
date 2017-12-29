@@ -5,8 +5,12 @@ class User < ApplicationRecord
   accepts_nested_attributes_for :artists
 
   def liked_artists
-    user.artists
+    self.artists
   end
+
+  def fav_artist?(artist)
+    self.liked_artists.include?(artist)
+  end 
 
   def artist_attributes=(artist_attributes)
     artist_attributes.values.each do |artist_attribute|

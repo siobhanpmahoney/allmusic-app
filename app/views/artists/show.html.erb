@@ -1,5 +1,7 @@
-
-
+<%= form_for @user.artists.build do |f| %>
+<%= hidden_field_tag :artist_id, @user.id %>
+<%= f.submit "Add Artist", class: "btn btn-primary" %>
+<% end %>
 
 <h1><%= @artist_name %></h1>
 
