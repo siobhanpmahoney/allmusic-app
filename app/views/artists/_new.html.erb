@@ -1,0 +1,15 @@
+<%= yield %>
+
+<h2>Find An Artist!</h2>
+
+<!-- <%= form_for @artist do |f| %>
+<%= f.label :name %>
+<%= f.text_field :name %>
+<%= f.submit %>
+<% end %> -->
+
+<%= form_tag ({controller: 'artists', action: 'create', method: 'post'}) do %>
+<%= label_tag :name %>
+<%= text_field_tag :name, params[:name] %> 
+<input type=submit value='search'>
+<% end %>

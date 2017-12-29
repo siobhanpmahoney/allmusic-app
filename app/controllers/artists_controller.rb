@@ -7,7 +7,7 @@ class ArtistsController < ApplicationController
   end
 
   def create
-    @artist = Artist.create(name: artist_params[:name])
+    @artist = Artist.find_or_create_by(name: params[:name])
     puts @artist
     redirect_to artist_path(@artist)
   end
@@ -27,6 +27,10 @@ class ArtistsController < ApplicationController
     @artist_similar = Nokogiri::HTML(open(@artist_url+"/related")).css("section.related.similars ul li a").map {|s| s.text}
     @artist_influence = Nokogiri::HTML(open(@artist_url+"/related")).css("section.related.influencers ul li a").map {|s| s.text}
     @artist_bio = Nokogiri::HTML(open(@artist_url+"/biography")).css("section.biography div.text")
+  end
+
+  def update
+    @artist = Artist.find_or_create_by(artist_params)
   end
 
   private

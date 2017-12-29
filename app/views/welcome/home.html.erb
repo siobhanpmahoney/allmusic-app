@@ -1,4 +1,18 @@
+<%= render 'layouts/header' %>
+
 <h1>Hi, <%= @current_user.username %></h1>
+
+<%= render 'artists/new' %>
+
+<h1>Your Artists</h1>
+<ul>
+<% @current_user.artists.each do |artist| %>
+  <li><%= artist.name %></li>
+  <% end %>
+</ul>
+
+
+
 <%= form_tag ({controller: 'sessions', action: 'destroy', method: 'post'}) do %>
   <input type=submit value='logout'>
 <% end %>
