@@ -1,6 +1,5 @@
-require 'byebug'
-
 class ArtistsController < ApplicationController
+
 
   def new
     @artist = Artist.new
@@ -14,6 +13,7 @@ class ArtistsController < ApplicationController
   end
 
   def show
+
     @artist = Artist.find(params[:id])
     @search_results = @artist.allmusic_search_url
     @artist_url = @search_results.css("div.name a")[0].attribute("href").value
@@ -32,18 +32,18 @@ class ArtistsController < ApplicationController
   private
 
   def artist_params
-      params.require(:artist).permit(:name)
-    end
+    params.require(:artist).permit(:name, user_ids:[], users_attributes:[:username])
+  end
 
-    def allmusic_search_url
-      name_url = self.name.split.join("+")
-      band_name_search = "https://www.allmusic.com/search/artists/#{name_url}"
-      Nokogiri::HTML(open(band_name_search))
-    end
+  def allmusic_search_url
+    name_url = self.name.split.join("+")
+    band_name_search = "https://www.allmusic.com/search/artists/#{name_url}"
+    Nokogiri::HTML(open(band_name_search))
+  end
 
-    def band_page_scrape
-allmusic_search_url.css("div.name a")[0]. Nokogiri::HTML(open(attribute("href").value))
-    end
+  def band_page_scrape
+    allmusic_search_url.css("div.name a")[0]. Nokogiri::HTML(open(attribute("href").value))
+  end
 
 
 end
