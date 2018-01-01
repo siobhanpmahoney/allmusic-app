@@ -10,7 +10,13 @@ class User < ApplicationRecord
 
   def fav_artist?(artist)
     self.liked_artists.include?(artist)
-  end 
+  end
+
+  # def add_artist(artist)
+  #   artist = Artist.find(artist[:id])
+  #   self.artists << artist
+  # end
+
 
   def artist_attributes=(artist_attributes)
     artist_attributes.values.each do |artist_attribute|

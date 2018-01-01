@@ -6,9 +6,11 @@ class Artist < ApplicationRecord
 
   def allmusic_search_url
     require 'open-uri'
-    name_url = self.name.split.join("+")
-    band_name_search = "https://www.allmusic.com/search/artists/#{name_url}"
-    Nokogiri::HTML(open(band_name_search))
+    if self.name
+      name_url = self.name.split.join("+")
+      band_name_search = "https://www.allmusic.com/search/artists/#{name_url}"
+      Nokogiri::HTML(open(band_name_search))
+    end
   end
 
   def user_attributes=(user_attributes)

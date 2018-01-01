@@ -1,6 +1,4 @@
 class ArtistsController < ApplicationController
-
-
   def new
     @artist = Artist.new
     # @search_results = @artist.allmusic_search_url
@@ -10,6 +8,16 @@ class ArtistsController < ApplicationController
     @artist = Artist.find_or_create_by(name: params[:name])
     puts @artist
     redirect_to artist_path(@artist)
+  end
+
+  def add_artist
+    @format = params[:format].to_i
+    puts @format
+    @artist = Artist.find_by(id: @format)
+    @user = current_user
+    @user.artists << @artist
+    puts @artist.name
+    redirect_to root_url
   end
 
   def show
@@ -28,9 +36,6 @@ class ArtistsController < ApplicationController
     @artist_similar = Nokogiri::HTML(open(@artist_url+"/related")).css("section.related.similars ul li a").map {|s| s.text}
     @artist_influence = Nokogiri::HTML(open(@artist_url+"/related")).css("section.related.influencers ul li a").map {|s| s.text}
     @artist_bio = Nokogiri::HTML(open(@artist_url+"/biography")).css("section.biography div.text")
-    if @user.fav_artist?(@artist)
-      flash.now.alert = '#{@artist.name} has been added to your favorite artists'
-    end
   end
 
   def update
