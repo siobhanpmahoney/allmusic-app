@@ -7,7 +7,7 @@
 <h1>Your Artists</h1>
 <ul>
 <% @current_user.artists.uniq.each do |artist| %>
-  <li><%= artist.name %></li>
+  <li><%= link_to artist.name, artist %></li>
   <% end %>
 </ul>
 
