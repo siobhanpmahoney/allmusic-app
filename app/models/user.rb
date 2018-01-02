@@ -24,4 +24,15 @@ class User < ApplicationRecord
       self.artists << artist
     end
   end
+
+  def user_genres
+    genres = []
+    self.artists.each do |artist|
+      artist.genres.each do |genre|
+        genres << genre
+      end
+    end
+    genres.uniq
+  end
+
 end
