@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   # resources :artists
   resources :artists, only: [:new, :create, :show, :add_artist]
   resources :sessions
+  resources :genres
 
   root to: 'welcome#home'
 

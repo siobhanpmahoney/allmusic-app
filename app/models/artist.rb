@@ -16,6 +16,12 @@ class Artist < ApplicationRecord
     end
   end
 
+  def allmusic_search_url
+    name_url = self.name.split.join("+")
+    band_name_search = "https://www.allmusic.com/search/artists/#{name_url}"
+    Nokogiri::HTML(open(band_name_search)).css("div.name a")[0].attribute("href")
+  end
+
   def band_page_scrape
     self.scrape_path.css("div.name a")[0]. Nokogiri::HTML(open(attribute("href").value))
   end

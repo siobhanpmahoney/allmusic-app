@@ -1,0 +1,12 @@
+<h1><%= @genre.name %></h1>
+
+<h2>Overview</h2>
+<p><%= @genre_scraper.css("p.description").text %></p>
+
+<h3>Explore <%= @genre.name %> Artists</h3>
+<ul>
+<% @explore_art.each do |ar| %>
+<% find_artist = Artist.find_by(name: ar)%>
+<li><%=link_to ar, artist_path(find_artist) %></li>
+<% end %>
+</ul>

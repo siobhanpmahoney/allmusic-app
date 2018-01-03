@@ -37,6 +37,7 @@ class ArtistsController < ApplicationController
     @artist_styles =  @artist_page.css("div.styles div a").map {|t| t.text}
     @artist_styles.each do |style|
       artist_style = Genre.find_or_create_by(name: style)
+      artist_style.update(genre_url: @artist_page.css("div.genre a").attribute("href").value)
       @artist.genres << artist_style
       @artist.genres
     end
@@ -56,12 +57,11 @@ class ArtistsController < ApplicationController
     params.require(:artist).permit(:name, :scrape_path, :years_active, :headlines, :biography, user_ids:[], user_attributes:[:username], genre_ids: [], genre_attributes:[:name])
   end
 
-  def allmusic_search_url(band_name)
-    name_url = band_name.split.join("+")
-    band_name_search = "https://www.allmusic.com/search/artists/#{name_url}"
-    puts "Loading: " + band_name_search
-    Nokogiri::HTML(open(band_name_search)).css("div.name a")[0].attribute("href")
-  end
+  # def allmusic_search_url(band_name)
+  #   name_url = band_name.split.join("+")
+  #   band_name_search = "https://www.allmusic.com/search/artists/#{name_url}"
+  #   Nokogiri::HTML(open(band_name_search)).css("div.name a")[0].attribute("href")
+  # end
 
 
 

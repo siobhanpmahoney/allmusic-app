@@ -10,7 +10,7 @@
 <h4>Artist Styles</h4>
 <ul>
 <% @artist_styles.each do |s| %>
-<li><%= s %></li>
+<li><%= link_to s, genre_path(s) %></li>
 <% end %>
 </ul>
 
